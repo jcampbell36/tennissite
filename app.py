@@ -1,9 +1,9 @@
 from flask import Flask, request, render_template
 import joblib, os
 
-MODEL_PATH = os.getenv("MODEL_PATH", "model.joblib")   # keep it configurable
+MODEL_PATH = os.getenv("MODEL_PATH", "model.pkl")
 app = Flask(__name__)
-model = joblib.load(MODEL_PATH)                        # ← joblib, not pickle
+model = joblib.load(MODEL_PATH = os.getenv("MODEL_PATH", "model.pkl")
 
 @app.route("/")
 def home():
