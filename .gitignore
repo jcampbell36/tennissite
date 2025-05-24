@@ -1,3 +1,11 @@
 *.pyc
 __pycache__/
 !model.pkl
+
+# macOS
+.DS_Store
+# Python
+venv/
+__pycache__/
+# local data
+data/
