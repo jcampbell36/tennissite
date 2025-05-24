@@ -1,3 +1,4 @@
 flask
 gunicorn
 scikit-learn      # plus anything else you used to train
+joblib
