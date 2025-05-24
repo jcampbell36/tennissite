@@ -12,8 +12,8 @@ def home():
 @app.route("/predict", methods=["POST"])
 def predict():
     x = float(request.form["x"])
-    y = model.predict([[x]])[0]
-    return f"{y:.4f}"
+    proba = model.predict_proba([[x]])[0, 1]
+    return f"{proba:.4f}"
 
 if __name__ == "__main__":
     import sys
