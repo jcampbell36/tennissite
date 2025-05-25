@@ -2,3 +2,5 @@ flask
 gunicorn
 scikit-learn
 joblib
+openai>=1.0.0
+python-dotenv
