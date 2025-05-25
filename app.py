@@ -15,7 +15,15 @@ model = joblib.load(MODEL_PATH)
 api_key = os.getenv('GOOGLE_API_KEY')
 if api_key:
     genai.configure(api_key=api_key)
-    model_gemini = genai.GenerativeModel('gemini-pro')
+    try:
+        # List available models
+        for m in genai.list_models():
+            print(f"Available model: {m.name}")
+        model_gemini = genai.GenerativeModel('gemini-2.5-flash-preview-05-20')
+        print("Successfully initialized Gemini 2.5 Flash Preview")
+    except Exception as e:
+        print(f"Error initializing Gemini model: {str(e)}")
+        model_gemini = None
 else:
     model_gemini = None
     print("Warning: GOOGLE_API_KEY not found in environment variables. Poem generator will use fallback mode.")
@@ -23,6 +31,7 @@ else:
 def generate_acrostic_poem(name):
     # If no API key or model isn't initialized, use fallback immediately
     if not model_gemini:
+        print("Using fallback mode: Gemini model not available")
         return generate_fallback_poem(name)
 
     # Create a prompt for Gemini
@@ -36,6 +45,10 @@ def generate_acrostic_poem(name):
     try:
         # Call Gemini API
         response = model_gemini.generate_content(prompt)
+        
+        if not response or not response.text:
+            print("Empty response from Gemini, using fallback")
+            return generate_fallback_poem(name)
         
         # Get the generated poem lines
         poem_lines = response.text.strip().split('\n')
